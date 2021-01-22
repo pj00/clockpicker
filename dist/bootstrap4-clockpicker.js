@@ -139,12 +139,13 @@
             $(this.buttonsAmPm).css("display", "flex");
 
             $('<a class="btn-am">AM</a>')
-        .on("click", function() {
-                    self.amOrPm = "AM";
+            .on("click", function() {
+                e.stopPropagation();
+                self.amOrPm = "AM";
                     $(this).removeClass("text-white-50");
                     $(".btn-pm").addClass("text-white-50");
                     if (options.ampmSubmit) {
-            setTimeout(function() {
+                        setTimeout(function() {
                             self.done();
                         }, duration / 2);
                     }
@@ -152,7 +153,8 @@
                 .appendTo(this.buttonsAmPm);
 
             $('<a class="btn-pm text-white-50">PM</a>')
-        .on("click", function() {
+            .on("click", function() {
+                e.stopPropagation();
                     self.amOrPm = "PM";
                     $(this).removeClass("text-white-50");
                     $(".btn-am").addClass("text-white-50");
