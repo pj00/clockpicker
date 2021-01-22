@@ -103,7 +103,7 @@
             minutesView = popover.find(".clockpicker-minutes"),
             isInput = element.prop("tagName") === "INPUT",
             input = isInput ? element : element.find("input"),
-            isHTML5 = input.prop("type") === "time",
+            isTimeInput = input.prop("type") === "time",
             addon = element.find(".input-group-addon"),
             popoverBody = popover.find(".popover-body"),
             closeBlock = popoverBody.find(".clockpicker-close-block"),
@@ -119,7 +119,7 @@
         this.isShown = false;
         this.currentView = "hours";
         this.isInput = isInput;
-        this.isHTML5 = isHTML5;
+        this.isTimeInput = isTimeInput;
         this.input = input;
         this.addon = addon;
         this.popover = popover;
@@ -906,7 +906,7 @@
             outHours = this.hours,
             value = ":" + leadingZero(this.minutes);
 
-        if (this.isHTML5 && this.options.twelvehour) {
+        if (this.isTimeInput && this.options.twelvehour) {
             if (this.hours < 12 && this.amOrPm === "PM") {
                 outHours += 12;
             }
@@ -917,8 +917,8 @@
 
         value = leadingZero(outHours) + value;
 
-        if (!this.isHTML5 && this.options.twelvehour) {
-            value = value + this.amOrPm;
+        if (!this.isTimeInput && this.options.twelvehour) {
+            value = value + " " + this.amOrPm;
         }
 
         this.input.prop("value", value);
