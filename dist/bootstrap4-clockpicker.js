@@ -139,9 +139,9 @@
             $(this.buttonsAmPm).css("display", "flex");
 
             $('<a class="btn-am">AM</a>')
-            .on("click", function() {
-                e.stopPropagation();
-                self.amOrPm = "AM";
+                .on("click", function (e) {
+                    e.stopPropagation();
+                    self.amOrPm = "AM";
                     $(this).removeClass("text-white-50");
                     $(".btn-pm").addClass("text-white-50");
                     if (options.ampmSubmit) {
@@ -153,8 +153,8 @@
                 .appendTo(this.buttonsAmPm);
 
             $('<a class="btn-pm text-white-50">PM</a>')
-            .on("click", function() {
-                e.stopPropagation();
+                .on("click", function (e) {
+                    e.stopPropagation();
                     self.amOrPm = "PM";
                     $(this).removeClass("text-white-50");
                     $(".btn-am").addClass("text-white-50");
@@ -668,8 +668,19 @@
         // Hide when clicking or tabbing on any element except the clock, input and addon
         $doc.on(
             "click.clockpicker." + this.id + " focusin.clockpicker." + this.id,
-      function(e) {
+            function (e) {
+
+                // This handles issue of focusin event firing when AM/PM buttons are clicked
+                // and the popover is attached to a modal.  There's probably a better way,
+                // but whatevs.
+                if (e.type === "focusin") {
+                    var $parent = $(e.originalEvent.explicitOriginalTarget.parentElement);
+                    if ($parent.is(".btn-am, .btn-pm"))
+                        return;
+                }
+
                 var target = $(e.target);
+
                 if (
                     target.closest(self.popover).length === 0 &&
                     target.closest(self.addon).length === 0 &&
